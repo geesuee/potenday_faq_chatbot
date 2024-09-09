@@ -4,7 +4,7 @@
 # 포텐데이 관련 자료
 *.html
 potendayguide/
-url_to_filename_map.json
+filename_to_url_map.json
 
 ### macOS ###
 # General

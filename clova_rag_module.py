@@ -32,12 +32,9 @@ def load_html_files_and_replace_source():
     html_files_dir = Path('./potendayguide')
     html_files = list(html_files_dir.glob("*.html"))
 
-    # URL-to-filename 매핑 정보 로드
-    with open("url_to_filename_map.json", "r") as map_file:
-        url_to_filename_map = json.load(map_file)
-    
-    # filename-to-URL 매핑 정보로 변환
-    filename_to_url_map = {v: k for k, v in url_to_filename_map.items()}
+    # filename-to-URL 매핑 정보 로드
+    with open("filename_to_url_map.json", "r") as map_file:
+        filename_to_url_map = json.load(map_file)
     
     potendaydatas = []
     
