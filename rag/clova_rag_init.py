@@ -1,6 +1,6 @@
 from datetime import datetime
 
-import clova_rag_module as rag
+import rag.clova_rag_module as rag
 
 # ---------------------------
 # RAG 초기 설정 : 벡터화 후 적재

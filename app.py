@@ -1,6 +1,6 @@
 import streamlit as st
 
-import clova_rag_module as rag
+import rag.clova_rag_module as rag
 
 # 하이퍼 클로바 X
 def call_hyper_clovax(user_message):
@@ -8,7 +8,7 @@ def call_hyper_clovax(user_message):
     return rag.chat_with_rag(user_message, collection_name)
 
 # Streamlit 페이지 제목 설정
-st.title("CLOVA Studio 포텐데이 FAQ 테스트")
+st.title("포텐데이 FAQ 테스트")
 
 # 세션 상태에서 입력 필드와 채팅 기록을 관리
 if 'chat_history' not in st.session_state:
@@ -45,8 +45,8 @@ st.text_input("질문을 입력하세요:",
 if st.button("대화 내역 지우기"):
     clear_chat()
 
-# 채팅 기록을 출력하는 부분
-for chat in st.session_state.chat_history:
+# 채팅 기록을 출력하는 부분 (최근 대화가 위에 표시되도록 chat_history 역순으로 출력)
+for chat in reversed(st.session_state.chat_history):
     st.write(f"**👤 사용자:** {chat['user']}")
     st.write(f"**🍀 CLOVA:** {chat['bot']}")
     st.divider()

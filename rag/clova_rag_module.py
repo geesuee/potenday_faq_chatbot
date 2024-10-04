@@ -8,7 +8,7 @@ from langchain_community.document_loaders import UnstructuredHTMLLoader
 from langchain_community.document_loaders import UnstructuredHTMLLoader
 from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Collection, utility
 
-import clova_executor as executor
+import rag.clova_executor as executor
 
 
 
