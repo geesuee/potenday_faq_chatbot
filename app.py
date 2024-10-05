@@ -1,11 +1,16 @@
 import streamlit as st
 
-import rag.clova_rag_module as rag
+from chatbot.chatbot_message_sender import ChatbotMessageSender
 
 # 하이퍼 클로바 X
 def call_hyper_clovax(user_message):
-    collection_name = "potenday_faq"
-    return rag.chat_with_rag(user_message, collection_name)
+    # rag 방식
+    # collection_name = "potenday_faq"
+    # return rag.chat_with_rag(user_message, collection_name)
+
+    # chatbot 방식
+    res = ChatbotMessageSender().req_message_send(user_message)
+    return res.json()['content'][0]['data']['details']
 
 # Streamlit 페이지 제목 설정
 st.title("포텐데이 FAQ 테스트")
