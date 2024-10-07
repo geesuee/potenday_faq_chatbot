@@ -1,6 +1,7 @@
 import streamlit as st
 
 from chatbot.chatbot_message_sender import ChatbotMessageSender
+from clovastudio.clovastudio_completion_executor import sentence_refine
 
 # 하이퍼 클로바 X
 def call_hyper_clovax(user_message):
@@ -9,8 +10,35 @@ def call_hyper_clovax(user_message):
     # return rag.chat_with_rag(user_message, collection_name)
 
     # chatbot 방식
-    res = ChatbotMessageSender().req_message_send(user_message)
-    return res.json()['content'][0]['data']['details']
+    chatbotMessageSender = ChatbotMessageSender()
+    res = chatbotMessageSender.req_message_send(user_message)
+    reply = res.json()['content'][0]['data']['details']
+
+    # 실패 메세지 반환 시, clova studio 문장 교정 후 재요청
+    if reply == "제가 알지 못하는 내용이에요. 도와주세요 오잉님!":
+        # 문장 교정
+        st.text("1차 요청에 실패해서 문장 교정을 시작합니다.")
+        question_count, questions = sentence_refine(user_message)
+        st.text(questions)
+
+        # chatbot 재요청
+        answers = []
+        for q in questions:
+            q = q.strip()
+            res = chatbotMessageSender.req_message_send(user_message)
+            reply = res.json()['content'][0]['data']['details']
+            answers.append(reply)
+            st.text(reply)
+
+        # 답변 중복 제거 후 통합
+        final_reply = '\n'.join(set(answers))
+
+        return final_reply
+    
+    # 성공 메세지 반환 시, 그대로 리턴
+    else:
+        return reply
+
 
 # Streamlit 페이지 제목 설정
 st.title("포텐데이 FAQ 테스트")
